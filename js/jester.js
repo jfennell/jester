@@ -2,64 +2,70 @@
  * Object to track state and move through
  * Questionable Content urls.
  */
-var QC = {
-	'comicId': 1600,
-	'warmWindow': 2,
-	'comicCache': {},
+var QC = function() {
+	var comicId = 1600;
+	var warmWindow = 2;
+	var comicCache = {};
 
-	'url': function(n) {
-		// TODO: Add some validation here.
-		return "http://questionablecontent.net/comics/" + n + ".png";
-	},
+	return {
+		'url': function(n) {
+			// TODO: Add some validation here.
+			return "http://questionablecontent.net/comics/" + n + ".png";
+		},
 
-	/**
-	 * Cached getter of the comic with id `n`.
-	 */
-	'getComic': function(n) {
-		var comic = this.comicCache[n];
-		if (comic === undefined) {
-			comic = new Image();
-			this.comicCache[n] = comic;
-			comic.src = this.url(n);
+		'getComicId': function() {
+			return comicId;
+		},
+
+		/**
+		 * Cached getter of the comic with id `n`.
+		 */
+		'getComic': function(n) {
+			var comic = comicCache[n];
+			if (comic === undefined) {
+				comic = new Image();
+				comicCache[n] = comic;
+				comic.src = this.url(n);
+			}
+			return comic;
+		},
+
+		/**
+		 * Hit the getComic function repeatedly to (in the background)
+		 * start image retrievals for a few comics before and after
+		 * the current one.
+		 *
+		 * Should this do getComic(n) first to give it some sort of priority?
+		 * We want the *current* one to load as fast as possible.
+		 *
+		 * NOTE: In standard use case probably want a longer forward
+		 * window than backward window because you are reading the strip forward.
+		 *
+		 * Additionally, might want to do LRU cache or something... need
+		 * to ask jlatt or somebody about how you profile memory useage of
+		 * your js.
+		 */
+		'warmSurrounding': function(n) {
+			for(var i = -warmWindow; i <= warmWindow; i += 1) {
+				this.getComic(n + i);
+			}
+		},
+
+		'next': function() {
+			comicId += 1;
+			this.warmSurrounding(comicId);
+			var comic = this.getComic(comicId);
+			return comic.src;
+		},
+
+		'prev': function() {
+			comicId -= 1;
+			this.warmSurrounding(comicId);
+			var comic = this.getComic(comicId);
+			return comic.src;
 		}
-		return comic;
-	},
-
-	/**
-	 * Hit the getComic function repeatedly to (in the background)
-	 * start image retrievals for a few comics before and after
-	 * the current one.
-	 *
-	 * Should this do getComic(n) first to give it some sort of priority?
-	 * We want the *current* one to load as fast as possible.
-	 *
-	 * NOTE: In standard use case probably want a longer forward
-	 * window than backward window because you are reading the strip forward.
-	 *
-	 * Additionally, might want to do LRU cache or something... need
-	 * to ask jlatt or somebody about how you profile memory useage of
-	 * your js.
-	 */
-	'warmSurrounding': function(n) {
-		for(var i = -this.warmWindow; i <= this.warmWindow; i += 1) {
-			this.getComic(n + i);
-		}
-	},
-
-	'next': function() {
-		this.comicId += 1;
-		this.warmSurrounding(this.comicId);
-		var comic = this.getComic(this.comicId);
-		return comic.src;
-	},
-
-	'prev': function() {
-		this.comicId -= 1;
-		this.warmSurrounding(this.comicId);
-		var comic = this.getComic(this.comicId);
-		return comic.src;
 	}
-};
+}();
 
 /**
  * Factory function that makes an event handler to
@@ -75,7 +81,7 @@ function makeMover(qc) {
 		} else if (e.which == 39) { // Right
 			img.src = qc.next();
 		}
-		document.getElementById("test-div").firstChild.data = qc.comicId;
+		document.getElementById("test-div").firstChild.data = qc.getComicId();
 	};
 };
 
