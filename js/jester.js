@@ -1,4 +1,9 @@
 /**
+ * TODO: 
+ * 1. Add a form input & jump-to-comic
+ * 2. Clean up object initialization
+ */
+/**
  * Object to track state and move through
  * Questionable Content urls.
  */
@@ -11,6 +16,10 @@ var QC = function() {
 		'url': function(n) {
 			// TODO: Add some validation here.
 			return "http://questionablecontent.net/comics/" + n + ".png";
+		},
+
+		'setComicId': function(n) {
+			comicId = n;
 		},
 
 		'getComicId': function() {
@@ -74,15 +83,22 @@ var QC = function() {
  * the factory.
  */
 function makeMover(qc) {
+	var img = document.getElementById("pic");
+	var testDiv = document.getElementById("test-div");
 	return function(e) {
-		var img = document.getElementById("pic");
 		if (e.which == 37) { // Left
 			img.src = qc.prev();
 		} else if (e.which == 39) { // Right
 			img.src = qc.next();
 		}
-		document.getElementById("test-div").firstChild.data = qc.getComicId();
+		testDiv.firstChild.data = qc.getComicId();
 	};
 };
 
-document.onkeydown = makeMover(QC);
+//document.onkeydown = makeMover(QC);
+// Only instrument once all the DOM elements are created....
+// seems ghetto
+// ???: Why does this only work with 'window' and not 'document'
+window.onload = function() {
+	document.onkeydown = makeMover(QC);
+}
