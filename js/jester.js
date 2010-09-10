@@ -76,21 +76,23 @@ jester.QC = {
 		// Create a container for the comics to be displayed in
 		var container = document.createElement("div");
 		var img = document.createElement("img");
-		var label = document.createElement("p");
-		$(img).height(600);
 
-		console.log('declaring');
+		var form = document.createElement("form");
+		var labelInput = document.createElement("input");
+		labelInput.type = "text";
+		$(form).append(labelInput);
+
+		$(img).height(1140);
+
 		qc.updateComic = function(n) {
 			var comic = qc.jump(n);
 			img.src = comic.src;
-			$(label).text(qc.comicId);
+			$(labelInput).val(qc.comicId);
 		}
 		qc.updateComic(qc.comicId);
-		console.log('called');
 
-		$(container).append(img).append(label);
+		$(container).append(img).append(form);
 		$(elt).append(container);
-		console.log('attached');
 
 		// Bind a callback to the keyup event
 		// that will update the container when
@@ -102,14 +104,16 @@ jester.QC = {
 				qc.updateComic(qc.comicId + 1);
 			}
 		});
+
+		// Bind a callback to the form submit
+		$(form).submit(function(evt) {
+			evt.preventDefault();
+			var jumpTo = parseInt($(labelInput).val());
+			qc.updateComic(jumpTo);
+		});
 	}
 }
 
 $(document).ready(function() {
-	jester.QC.attach($('#test-div')[0])
-	$('#comic-setter').submit(function(evt) {
-		evt.preventDefault();
-		var jumpTo = parseInt($('#comic-setter input:first').val());
-		jester.QC.updateComic(jumpTo);
-	});
+	jester.QC.attach($('body')[0])
 });
