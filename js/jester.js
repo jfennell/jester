@@ -5,7 +5,8 @@
 jester = {}
 
 jester.QC = {
-	comicId: 1600,
+//	comicId: 1346,
+	comicId: 1300,
 	warmWindow: 2,
 	comicCache: {},
 
@@ -73,26 +74,59 @@ jester.QC = {
 	attach: function(elt) {
 		var qc = this;
 
-		// Create a container for the comics to be displayed in
-		var container = document.createElement("div");
-		var img = document.createElement("img");
-
-		var form = document.createElement("form");
-		var labelInput = document.createElement("input");
-		labelInput.type = "text";
-		$(form).append(labelInput);
-
-		$(img).height(1140);
+		$(elt).append([
+			'<div id="jesterbox">',
+				'<div id="imageContainer">',
+					'<img id="jesterImage" />',
+				'</div>',
+				'<div id="imageLabelContainer">',
+					'<div id="imageLabel">',
+						'<span id="comicNumber"></span>',
+					'</div>',
+				'</div>',
+			'</div>'
+		].join(''));
 
 		qc.updateComic = function(n) {
 			var comic = qc.jump(n);
-			img.src = comic.src;
-			$(labelInput).val(qc.comicId);
+			var w = comic.width;
+			var h = comic.height;
+
+			$('#jesterbox').css({
+				'height': h+40,
+				'width': w+40,
+				'background-color': 'steelBlue',
+				'text-align': 'center',
+			});
+
+			$("#jesterImage")[0].src = comic.src;
+			$("#comicNumber").text(qc.comicId);
+
 		}
 		qc.updateComic(qc.comicId);
 
-		$(container).append(img).append(form);
-		$(elt).append(container);
+
+//		// Create a container for the comics to be displayed in
+//		var container = document.createElement("div");
+//		var img = document.createElement("img");
+//
+//		var form = document.createElement("form");
+//		var labelInput = document.createElement("input");
+//		labelInput.type = "text";
+//		$(labelInput).width("5em");
+//		$(form).append(labelInput);
+//
+//		//$(img).height(1140);
+//
+//		qc.updateComic = function(n) {
+//			var comic = qc.jump(n);
+//			img.src = comic.src;
+//			$(labelInput).val(qc.comicId);
+//		}
+//		qc.updateComic(qc.comicId);
+//
+//		$(container).append(img).append(form);
+//		$(elt).append(container);
 
 		// Bind a callback to the keyup event
 		// that will update the container when
@@ -105,12 +139,12 @@ jester.QC = {
 			}
 		});
 
-		// Bind a callback to the form submit
-		$(form).submit(function(evt) {
-			evt.preventDefault();
-			var jumpTo = parseInt($(labelInput).val());
-			qc.updateComic(jumpTo);
-		});
+//		// Bind a callback to the form submit
+//		$(form).submit(function(evt) {
+//			evt.preventDefault();
+//			var jumpTo = parseInt($(labelInput).val());
+//			qc.updateComic(jumpTo);
+//		});
 	}
 }
 
