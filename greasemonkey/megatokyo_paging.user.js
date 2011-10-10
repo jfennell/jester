@@ -14,18 +14,20 @@ var megatokyo = function() {
 
 	var nav = {};
 	var prevs = document.getElementsByClassName("prev");
-	nav["prev"] = prevs[0].children[0].href;
+	if (prevs.length > 0 && prevs[0].children.length > 0) {
+		nav["prev"] = prevs[0].children[0].href;
+	}
 	var nexts = document.getElementsByClassName("next");
-	nav["next"] = nexts[0].children[0].href;
+	if (nexts.length > 0 && nexts[0].children.length > 0) {
+		nav["next"] = nexts[0].children[0].href;
+	}
 
 	// Handle left/right arrows to navigate
 	var handleArrow = function(e) {
 		if (e.which === 37 && nav["prev"] !== undefined) { // Left
-			//alert("Saw left");
-			location.href = nav["prev"];
+			location.replace(nav["prev"]);
 		} else if (e.which === 39 && nav["next"] !== undefined) { // Right
-			//alert("Saw right");
-			location.href = nav["next"];
+			location.replace(nav["next"]);
 		}
 	}
 	document.addEventListener("keydown", handleArrow, true);

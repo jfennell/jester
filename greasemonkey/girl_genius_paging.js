@@ -24,16 +24,12 @@ var girlGenius = function() {
 		}
 	}
 
-	//alert("Prev: " + nav["prev"] + "\nNext: " + nav["next"] + "\nlocaction.href: " + location.href);
-
 	// Handle left/right arrows to navigate
 	var handleArrow = function(e) {
 		if (e.which === 37 && nav["prev"] !== undefined) { // Left
-			//alert("Saw left");
-			location.href = nav["prev"];
+			location.replace(nav["prev"]);
 		} else if (e.which === 39 && nav["next"] !== undefined) { // Right
-			//alert("Saw right");
-			location.href = nav["next"];
+			location.replace(nav["next"]);
 		}
 	}
 	document.addEventListener("keydown", handleArrow, true);
