@@ -83,7 +83,9 @@ var main = function() {
 
 	// Scroll to the top of the comic (display as much as possible)
 	var comic = navigator.comic();
-	$(document).scrollTop(comic.offset().top);
+	if (comic !== undefined) {
+		$(document).scrollTop(comic.offset().top);
+	}
 
 	// Grab the prev & next url for navigation
 	var prevUrl = navigator.prev();
