@@ -12,6 +12,9 @@ var navigatorDirectory = {
 		next: function() {
 			return $('#MainTable div a img[alt*="Next"]'
 				).first().parent().attr('href');
+		},
+		comic: function() {
+			return $('#MainTable img[alt="Comic"]').first();
 		}
 	}
 };
@@ -27,6 +30,11 @@ var main = function() {
 		return; 
 	}
 
+	// Scroll to the top of the comic (display as much as possible)
+	var comic = navigator.comic();
+	$(document).scrollTop(comic.offset().top);
+
+	// Grab the prev & next url for navigation
 	var prevUrl = navigator.prev();
 	var nextUrl = navigator.next();
 
