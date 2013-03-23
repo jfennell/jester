@@ -31,10 +31,12 @@ one](http://www.girlgeniusonline.com/comic.php?date=20021206) for Girl Genius.
 See the Back and Next buttons? We want to write jQuery selectors to extract the
 uri they point to. To help you with this, I recommend opening up the Chrome
 console and pasting in
+
 	var _anchor = (document.head||document.documentElement);
 	var s = document.createElement('script');
 	s.src = "//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js";
 	_anchor.appendChild(s);
+
 which will inject jQuery on the page. You can then play around with selectors
 until you have managed to extract the uris. For table based layouts like Girl
 Genius I recommend attribute-based selectors like `#MainTable div a
