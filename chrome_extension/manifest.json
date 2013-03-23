@@ -8,8 +8,11 @@
   "content_scripts": [
     {
       "matches": [
-	  	  "http://www.girlgeniusonline.com/comic.php*"
-			],
+	    "http://www.girlgeniusonline.com/comic.php*",
+		"http://www.cad-comic.com/*",
+		"http://www.penny-arcade.com/*",
+		"http://*.xkcd.com/*"
+	  ],
       "js": [
 				"lib/jquery-1.9.1.min.js",
 				"lib/jsuri-1.1.1.min.js",
@@ -19,6 +22,9 @@
   ],
   "permissions": [
     "tabs",
-		"http://www.girlgeniusonline.com/*"
+	"http://www.girlgeniusonline.com/*",
+	"http://www.cad-comic.com/*",
+	"http://www.penny-arcade.com/*",
+	"http://*.xkcd.com/*"
   ]
 }

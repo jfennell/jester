@@ -1,3 +1,5 @@
+// Not currently used, but handy recipie for getting
+// jQuery into a console to mess with the page.
 var _anchor = (document.head||document.documentElement);
 
 var s = document.createElement('script');
