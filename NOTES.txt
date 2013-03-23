@@ -1,9 +1,0 @@
-Web-comic browser:
-1. Display for the comics.  Hitting l/r arrow (+ vim jk) moves.  Space advances
-2. Local caching of files
-3. Extend to new webcomic w/ a configuration file that specifies name + regex for BeautifulSoup to be able to pull out prev & next links on a page
-4. Provide direct link to hosting page
-
-More ideas for things to add to the page:
-1. jump-to-page # blah
-2. slider that lets you pick an arbitrary comic
