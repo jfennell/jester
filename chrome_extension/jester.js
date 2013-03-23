@@ -1,38 +1,50 @@
-// ==UserScript==
-// @name           Girl Genius Paging
-// @namespace      http://www.jasonfennell.com
-// @description    Let you navigate forward and back with left and right arrows
-// @include        http://www.girlgeniusonline.com/comic.php?*
-// ==/UserScript==
+/*
+ * Injectable js to let you navigate through webcomics with arrow keys.
+ */
+(function() {
 
-// Don't run on frames or iframes
-if (window.top != window.self) { return; }
-
-var girlGenius = function() {
-	var prevComicAlt = "The Previous Comic";
-	var nextComicAlt = "The Next Comic";
-
-	var imgs = document.getElementsByTagName("img");
-
-	var nav = {}
-	// Figure out the next/prev urls
-	for (var i = 0; i < imgs.length; ++i) {
-		if (imgs[i].alt === prevComicAlt) {
-			nav["prev"] = imgs[i].parentNode.href;	
-		} else if (imgs[i].alt === nextComicAlt) {
-			nav["next"] = imgs[i].parentNode.href;
+var navigatorDirectory = {
+	"www.girlgeniusonline.com": {
+		prev: function() {
+			return $('#MainTable div a img[alt*="Previous"]'
+				).first().parent().attr('href');
+		},
+		next: function() {
+			return $('#MainTable div a img[alt*="Next"]'
+				).first().parent().attr('href');
 		}
 	}
+};
+	
 
-	// Handle left/right arrows to navigate
-	var handleArrow = function(e) {
-		if (e.which === 37 && nav["prev"] !== undefined) { // Left
-			location.replace(nav["prev"]);
-		} else if (e.which === 39 && nav["next"] !== undefined) { // Right
-			location.replace(nav["next"]);
-		}
+var main = function() {
+	console.log('main function is executing');
+
+	var host = new Uri(location.href).host();
+	var navigator = navigatorDirectory[host];
+	if (!navigator) { 
+		console.log('failed to find navigator for host "' + host + '"');
+		return; 
 	}
-	document.addEventListener("keydown", handleArrow, true);
-}
 
-girlGenius();
+	var prevUrl = navigator.prev();
+	var nextUrl = navigator.next();
+
+	$(document).on('keydown', function(evt) {
+		console.log('keydown handler is executing');
+		
+		// Left
+		if (prevUrl !== undefined && evt.which === 37) { 
+			location.replace(prevUrl);
+		// Right
+		} else if (nextUrl !== undefined && evt.which === 39) {
+			location.replace(nextUrl);
+		}
+		// Do I need .preventDefault() or .stopPropagation()?
+	});
+};
+
+main();
+
+})();
+

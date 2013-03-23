@@ -5,16 +5,20 @@
   "description": "Easy navigation of webcomics.",
   "version": "0.1",
 
-  "web_accessible_resources": ["fairlocal.js"],
   "content_scripts": [
     {
-      "matches": ["https://www.google.com/*"],
-      "js": ["injector.js"]
-      // "js": ["lib/jquery.min.js", "fairlocal.js"]
-      // "js": ["lib/mootools-yui-compressed.js", "fairlocal.js"]
+      "matches": [
+	  	  "http://www.girlgeniusonline.com/comic.php*"
+			],
+      "js": [
+				"lib/jquery-1.9.1.min.js",
+				"lib/jsuri-1.1.1.min.js",
+				"jester.js"
+			]
     }
   ],
   "permissions": [
-    "tabs", "https://www.google.com/*"
+    "tabs",
+		"http://www.girlgeniusonline.com/*"
   ]
 }
