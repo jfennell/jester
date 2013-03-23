@@ -3,7 +3,7 @@ Jester
 
 Jester is a Chrome extension that lets you use arrow
 keys to navigate through certain webcomics. It is also easy
-to extend it to support new webcomics. 
+to extend it to support new webcomics.
 
 The navigation is:
  * `left-arrow` for the previous comic & `right-arrow` for the next
@@ -32,10 +32,10 @@ See the Back and Next buttons? We want to write jQuery selectors to extract the
 uri they point to. To help you with this, I recommend opening up the Chrome
 console and pasting in
 
-	var _anchor = (document.head||document.documentElement);
-	var s = document.createElement('script');
-	s.src = "//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js";
-	_anchor.appendChild(s);
+    var _anchor = (document.head||document.documentElement);
+    var s = document.createElement('script');
+    s.src = "//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js";
+    _anchor.appendChild(s);
 
 which will inject jQuery on the page. You can then play around with selectors
 until you have managed to extract the uris. For table based layouts like Girl
