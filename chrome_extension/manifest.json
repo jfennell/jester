@@ -17,12 +17,5 @@
             "lib/jsuri-1.1.1.min.js",
             "jester.js"
         ]
-    }],
-    "permissions": [
-        "tabs",
-        "http://www.girlgeniusonline.com/*",
-        "http://www.cad-comic.com/*",
-        "http://www.penny-arcade.com/*",
-        "http://*.xkcd.com/*"
-    ]
+    }]
 }
